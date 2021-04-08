@@ -11,7 +11,7 @@ require('dotenv').config();
 
 const db = monk(process.env.MONGO_URI);
 const urls = db.get('urls');
-urls.createIndex({ name: 1 }, { unique: true });
+urls.createIndex('name');
 
 const app = express();
 
@@ -54,13 +54,12 @@ app.post('/url', async (req, res, next) => {
 
 		if (!slug) {
 			slug = nanoid(6);
+		} else {
+			const existing = await urls.findOne({ slug });
+			if (existing) {
+				throw new Error('Slug In use. 🍔');
+			}
 		}
-		//else {
-		// 	const existing = await urls.findOne({ slug });
-		// 	if (existing) {
-		// 		throw new Error('Slug In use. 🍔');
-		// 	}
-		// }
 
 		slug = slug.toLowerCase();
 
@@ -73,7 +72,6 @@ app.post('/url', async (req, res, next) => {
 
 		return res.json(created);
 	} catch (err) {
-		console.log(err);
 		next(err);
 	}
 });
