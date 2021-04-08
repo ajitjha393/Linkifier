@@ -5,6 +5,13 @@ const helmet = require('helmet');
 
 const yup = require('yup');
 const { nanoid } = require('nanoid');
+const monk = require('monk');
+
+require('dotenv').config();
+
+const db = monk(process.env.MONGO_URI);
+const urls = db.get('urls');
+urls.createIndex('name');
 
 const app = express();
 
