@@ -14,6 +14,20 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static('./public'));
 
+// Error Handler
+app.use((error, req, res, next) => {
+	if (error.status) {
+		res.status(error.status);
+	} else {
+		res.status(error.status(500));
+	}
+
+	res.json({
+		message: error.message,
+		stack: process.env.NODE_ENV === 'production' ? '🥞' : error.stack,
+	});
+});
+
 const schema = yup.object().shape({
 	slug: yup.string().trim().matches(/\w\-]/i),
 
