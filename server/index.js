@@ -27,7 +27,7 @@ app.use(express.static('./public'));
 // 	// TODO: create a short URL
 // });
 
-const port = process.env.port || 1337;
+const port = process.env.PORT || 1337;
 
 app.listen(port, () => {
 	console.log(`Listening at http://localhost:${port}`);
