@@ -29,7 +29,10 @@ app.use((error, req, res, next) => {
 });
 
 const schema = yup.object().shape({
-	slug: yup.string().trim().matches(/\w\-]/i),
+	slug: yup
+		.string()
+		.trim()
+		.matches(/[\w\-]/i),
 
 	url: yup.string().trim().url().required(),
 });
@@ -43,7 +46,7 @@ app.post('/url', async (req, res, next) => {
 		});
 
 		if (!slug) {
-			slug = nanoid();
+			slug = nanoid(6);
 		}
 
 		slug = slug.toLowerCase();
