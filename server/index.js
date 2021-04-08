@@ -11,7 +11,7 @@ require('dotenv').config();
 
 const db = monk(process.env.MONGO_URI);
 const urls = db.get('urls');
-urls.createIndex('name');
+urls.createIndex({ slug: 1 }, { unique: true });
 
 const app = express();
 
@@ -76,16 +76,25 @@ app.post('/url', async (req, res, next) => {
 	}
 });
 
+app.get('/:id', async (req, res) => {
+	const { id: slug } = req.params;
+
+	try {
+		const url = await urls.findOne({ slug });
+		if (url) {
+			return res.redirect(url.url);
+		}
+	} catch (err) {
+		next(err);
+	}
+
+	return res.json({
+		message: 'Linkifier.sh - Short Urls for your Hosted Projects',
+	});
+});
+
 // app.get('/url/:id', (req, res) => {
 // 	// TODO: get short url from id
-// });
-
-// app.get('/:id', (req, res) => {
-// 	// TODO: redirect to URL
-
-// 	return res.json({
-// 		message: 'Linkifier.sh - Short Urls for your Hosted Projects',
-// 	});
 // });
 
 const port = process.env.PORT || 1337;
