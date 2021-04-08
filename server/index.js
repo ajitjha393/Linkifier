@@ -20,18 +20,17 @@ const schema = yup.object().shape({
 	url: yup.string().trim().url().required(),
 });
 
-app.post('/url', (req, res) => {
+app.post('/url', async (req, res) => {
 	const { slug, url } = req.body;
 	try {
+		if (!slug) {
+			slug = nanoid();
+		}
 
-        if(!slug){
-            slug = nanoid()
-        }
-
-        await schema.validate({
-            slug,url
-        })
-
+		await schema.validate({
+			slug,
+			url,
+		});
 	} catch (err) {
 		console.log(err);
 	}
