@@ -54,12 +54,13 @@ app.post('/url', async (req, res, next) => {
 
 		if (!slug) {
 			slug = nanoid(6);
-		} else {
-			const existing = await urls.findOne({ slug });
-			if (existing) {
-				throw new Error('Slug In use. 🍔');
-			}
 		}
+		//else {
+		// 	const existing = await urls.findOne({ slug });
+		// 	if (existing) {
+		// 		throw new Error('Slug In use. 🍔');
+		// 	}
+		// }
 
 		slug = slug.toLowerCase();
 
