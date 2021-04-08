@@ -84,8 +84,10 @@ app.get('/:id', async (req, res) => {
 		if (url) {
 			return res.redirect(url.url);
 		}
+
+		return res.redirect(`/?error=${slug} not found`);
 	} catch (err) {
-		next(err);
+		return res.redirect(`/?error=Link not found`);
 	}
 
 	return res.json({
