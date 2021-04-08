@@ -11,21 +11,21 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static('./public'));
 
-app.get('/url/:id', (req, res) => {
-	// TODO: get short url from id
-});
+// app.get('/url/:id', (req, res) => {
+// 	// TODO: get short url from id
+// });
 
-app.get('/:id', (req, res) => {
-	// TODO: redirect to URL
+// app.get('/:id', (req, res) => {
+// 	// TODO: redirect to URL
 
-	return res.json({
-		message: 'Linkifier - Short Urls for your Hosted Projects',
-	});
-});
+// 	return res.json({
+// 		message: 'Linkifier.sh - Short Urls for your Hosted Projects',
+// 	});
+// });
 
-app.post('/url', (req, res) => {
-	// TODO: create a short URL
-});
+// app.post('/url', (req, res) => {
+// 	// TODO: create a short URL
+// });
 
 const port = process.env.port || 1337;
 
