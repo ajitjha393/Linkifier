@@ -11,7 +11,7 @@ require('dotenv').config();
 
 const db = monk(process.env.MONGO_URI);
 const urls = db.get('urls');
-urls.createIndex('name');
+urls.createIndex({ name: 1 }, { unique: true });
 
 const app = express();
 
