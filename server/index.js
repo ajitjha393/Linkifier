@@ -5,7 +5,7 @@ const helmet = require('helmet');
 
 const yup = require('yup');
 const { nanoid } = require('nanoid');
-const monk = require('monk');
+const monk = require('monk').default;
 
 require('dotenv').config();
 
@@ -54,14 +54,23 @@ app.post('/url', async (req, res, next) => {
 
 		if (!slug) {
 			slug = nanoid(6);
+		} else {
+			const existing = await urls.findOne({ slug });
+			if (existing) {
+				throw new Error('Slug In use. 🍔');
+			}
 		}
 
 		slug = slug.toLowerCase();
 
-		return res.json({
-			url,
+		const newUrl = {
 			slug,
-		});
+			url,
+		};
+
+		const created = await urls.insert(newUrl);
+
+		return res.json(created);
 	} catch (err) {
 		console.log(err);
 		next(err);
