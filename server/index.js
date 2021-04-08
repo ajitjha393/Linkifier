@@ -89,10 +89,6 @@ app.get('/:id', async (req, res) => {
 	} catch (err) {
 		return res.redirect(`/?error=Link not found`);
 	}
-
-	return res.json({
-		message: 'Linkifier.sh - Short Urls for your Hosted Projects',
-	});
 });
 
 // app.get('/url/:id', (req, res) => {
